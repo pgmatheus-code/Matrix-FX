@@ -33,15 +33,18 @@ public class MatrixOp extends Application {
 	private Button btCalc, btQuit;
 	private Image pI;
 
-	// construtor da classe recebendo a opção escolhida no menu principal como
-	// parâmetro
+	// construtor da classe recebendo a opï¿½ï¿½o escolhida no menu principal como
+	// parï¿½metro
+	public MatrixOp() {
+		
+	}
 	public MatrixOp(int operation) {
 		this.op = operation;
 	}
 
-	// método de inicialização da tela
+	// mï¿½todo de inicializaï¿½ï¿½o da tela
 	public void start(Stage stage) throws Exception {
-		// objetos necessários para projetar a tela
+		// objetos necessï¿½rios para projetar a tela
 		this.stage = stage;
 		root = new Pane();
 		scene = new Scene(root, 1024, 340);
@@ -53,29 +56,29 @@ public class MatrixOp extends Application {
 		// CSS
 		scene.getStylesheets().add("/ui/stylesheet.css");
 
-		// rótulo de título da janela
+		// rï¿½tulo de tï¿½tulo da janela
 		lbTitle = new Label("Teste");
 		lbTitle.setId("title");
 		lbTitle.setLayoutY(20);
 		lbTitle.layoutXProperty().bind((scene.widthProperty().divide(2)).subtract(lbTitle.widthProperty().divide(2)));
 
-		// botão voltar
+		// botï¿½o voltar
 		btQuit = new Button("Menu Principal");
 		btQuit.setLayoutX(5);
 		btQuit.layoutYProperty().bind((scene.heightProperty().subtract(btQuit.heightProperty()).subtract(5)));
 		btQuit.prefWidthProperty().bind(scene.widthProperty().subtract(btQuit.layoutXProperty()).subtract(5));
 
-		// botão calcular
+		// botï¿½o calcular
 		btCalc = new Button("Calcular");
 		btCalc.setLayoutX(5);
 		btCalc.layoutYProperty().bind((btQuit.layoutYProperty().subtract(btCalc.heightProperty()).subtract(5)));
 		btCalc.prefWidthProperty().bind(scene.widthProperty().subtract(btCalc.layoutXProperty()).subtract(5));
 		btCalc.setPrefHeight(50);
 
-		// adição dos objetos anteriores ao gerenciador de controles
+		// adiï¿½ï¿½o dos objetos anteriores ao gerenciador de controles
 		root.getChildren().addAll(lbTitle, btQuit, btCalc);
 
-		// parâmetro de operação - 0 = soma, 1 = diferença, 2 - produto, 3 - produto por
+		// parï¿½metro de operaï¿½ï¿½o - 0 = soma, 1 = diferenï¿½a, 2 - produto, 3 - produto por
 		// escalar
 		switch (op) {
 		case 0:
@@ -86,8 +89,8 @@ public class MatrixOp extends Application {
 			break;
 
 		case 1:
-			stage.setTitle("DIFERENÇA | MatrixFX");
-			lbTitle.setText("IIIVX|      Diferença de matrizes      |XVIII");
+			stage.setTitle("DIFERENï¿½A | MatrixFX");
+			lbTitle.setText("IIIVX|      DiferenÃ§a de matrizes      |XVIII");
 			addMatrixA(50, 90);
 			addMatrixB(560, 90);
 			break;
@@ -112,7 +115,7 @@ public class MatrixOp extends Application {
 		stage.setResizable(false);
 		stage.show();
 
-		// seleciona e desabilita caixas de checagem no começo
+		// seleciona e desabilita caixas de checagem no comeï¿½o
 		chBxAI1.setSelected(true);
 		chBxAJ1.setSelected(true);
 		chBxAI1.setDisable(true);
@@ -136,10 +139,10 @@ public class MatrixOp extends Application {
 			}
 		}
 
-		// chamada de verificação de caixas de checagem
+		// chamada de verificaï¿½ï¿½o de caixas de checagem
 		verify();
 
-		// ações disparadas entre as caixas de checagem
+		// aï¿½ï¿½es disparadas entre as caixas de checagem
 		chBxAI5.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				if (chBxAI5.isSelected()) {
@@ -397,7 +400,7 @@ public class MatrixOp extends Application {
 			});
 		}
 
-		// botão para voltar para o menu principal
+		// botï¿½o para voltar para o menu principal
 		btQuit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				MainMenu menu = new MainMenu();
@@ -417,7 +420,7 @@ public class MatrixOp extends Application {
 		});
 	}
 
-	// método que executa tudo o que precisa para calcular e projeta janela de
+	// mï¿½todo que executa tudo o que precisa para calcular e projeta janela de
 	// resultados, podendo projetar janela de erro
 	private void calculate() {
 		checkDim();
@@ -547,7 +550,7 @@ public class MatrixOp extends Application {
 		return b;
 	}
 
-	// método que verifica se há algum campo vazio
+	// mï¿½todo que verifica se hï¿½ algum campo vazio
 	private boolean anyFieldEmpty() {
 		boolean empty = false;
 
@@ -616,7 +619,7 @@ public class MatrixOp extends Application {
 		return empty;
 	}
 
-	// método que verifica todas as caixas de checagem e habilita/desabilita campos
+	// mï¿½todo que verifica todas as caixas de checagem e habilita/desabilita campos
 	private void verify() {
 		if (chBxAI1.isSelected() && chBxAJ1.isSelected()) {
 			tFA11.setDisable(false);
@@ -923,7 +926,7 @@ public class MatrixOp extends Application {
 		}
 	}
 
-	// checa as dimensoes das matrizes e atualiza nas variáveis da classe
+	// checa as dimensoes das matrizes e atualiza nas variï¿½veis da classe
 	private void checkDim() {
 		this.aI = 1;
 		if (chBxAI2.isSelected()) {
@@ -984,7 +987,7 @@ public class MatrixOp extends Application {
 		}
 	}
 
-	// método para projetar campo do escalar na tela
+	// mï¿½todo para projetar campo do escalar na tela
 	private void addScalar(int x, int y) {
 		tFScalar = new LimitedRomanField(digitLimit);
 		tFScalar.setId("scalar");
@@ -994,7 +997,7 @@ public class MatrixOp extends Application {
 		root.getChildren().add(tFScalar);
 	}
 
-	// método para projetar campos da matriz A
+	// mï¿½todo para projetar campos da matriz A
 	private void addMatrixA(int x, int y) {
 		tFA11 = new LimitedRomanField(digitLimit);
 		tFA11.setLayoutX(x);
@@ -1139,7 +1142,7 @@ public class MatrixOp extends Application {
 				chBxAI1, chBxAI2, chBxAI3, chBxAI4, chBxAI5, chBxAJ1, chBxAJ2, chBxAJ3, chBxAJ4, chBxAJ5);
 	}
 
-	// método para projetar campo da matriz B
+	// mï¿½todo para projetar campo da matriz B
 	private void addMatrixB(int x, int y) {
 		tFB11 = new LimitedRomanField(digitLimit);
 		tFB11.setLayoutX(x);
@@ -1284,7 +1287,7 @@ public class MatrixOp extends Application {
 				chBxBI1, chBxBI2, chBxBI3, chBxBI4, chBxBI5, chBxBJ1, chBxBJ2, chBxBJ3, chBxBJ4, chBxBJ5);
 	}
 
-	// ponto de partida da aplicação
+	// ponto de partida da aplicaï¿½ï¿½o
 	public static void main(String[] args) {
 		launch(args);
 	}

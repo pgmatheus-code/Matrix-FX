@@ -43,7 +43,7 @@ public class MainMenu extends Application{
 		btSum.setLayoutY(20);
 		btSum.setPrefWidth(btWidth);
 		
-		btSub = new Button("Diferen�a de matrizes");
+		btSub = new Button("Diferença de matrizes");
 		btSub.layoutXProperty().bind(btSum.layoutXProperty());
 		btSub.layoutYProperty().bind(btSum.layoutYProperty().add(btSum.heightProperty()).add(btSpacing));
 		btSub.setPrefWidth(btWidth);
