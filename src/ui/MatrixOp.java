@@ -1,6 +1,7 @@
 package ui;
 
 import alg.Matrix;
+import alg.OperationType;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,11 +16,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MatrixOp extends Application {
+	
+	private OperationType opType;
+	
 	private Stage stage;
 	private Pane root;
-	private Scene scene;
-
-	private int op, aI, aJ, bI, bJ, digitLimit = 6, tFPrefWidht = 90, tFSpacing = 0;
+	private Scene scene;	
+	
+	private int aI, aJ, bI, bJ, digitLimit = 6, tFPrefWidht = 90, tFSpacing = 0;
 
 	private Label lbTitle;
 	private TextInputControl tFScalar, tFA11, tFA12, tFA13, tFA14, tFA15, tFA21, tFA22, tFA23, tFA24, tFA25, tFA31,
@@ -33,16 +37,15 @@ public class MatrixOp extends Application {
 	private Button btCalc, btQuit;
 	private Image pI;
 
-	// construtor da classe recebendo a op��o escolhida no menu principal como
-	// par�metro
-	public MatrixOp() {
-		
-	}
-	public MatrixOp(int operation) {
-		this.op = operation;
+	
+	public MatrixOp() {} // empty contructor
+	
+	public MatrixOp(OperationType opType) // enum param constructor 
+	{
+		this.opType = opType;
 	}
 
-	// m�todo de inicializa��o da tela
+	// initialize screen
 	public void start(Stage stage) throws Exception {
 		// objetos necess�rios para projetar a tela
 		this.stage = stage;
@@ -56,58 +59,58 @@ public class MatrixOp extends Application {
 		// CSS
 		scene.getStylesheets().add("/ui/stylesheet.css");
 
-		// r�tulo de t�tulo da janela
+		// title label
 		lbTitle = new Label("Teste");
 		lbTitle.setId("title");
 		lbTitle.setLayoutY(20);
 		lbTitle.layoutXProperty().bind((scene.widthProperty().divide(2)).subtract(lbTitle.widthProperty().divide(2)));
 
-		// bot�o voltar
+		// back button
 		btQuit = new Button("Menu Principal");
 		btQuit.setLayoutX(5);
 		btQuit.layoutYProperty().bind((scene.heightProperty().subtract(btQuit.heightProperty()).subtract(5)));
 		btQuit.prefWidthProperty().bind(scene.widthProperty().subtract(btQuit.layoutXProperty()).subtract(5));
 
-		// bot�o calcular
+		// calc button
 		btCalc = new Button("Calcular");
 		btCalc.setLayoutX(5);
 		btCalc.layoutYProperty().bind((btQuit.layoutYProperty().subtract(btCalc.heightProperty()).subtract(5)));
 		btCalc.prefWidthProperty().bind(scene.widthProperty().subtract(btCalc.layoutXProperty()).subtract(5));
 		btCalc.setPrefHeight(50);
 
-		// adi��o dos objetos anteriores ao gerenciador de controles
+		// add all elements to the root
 		root.getChildren().addAll(lbTitle, btQuit, btCalc);
-
-		// par�metro de opera��o - 0 = soma, 1 = diferen�a, 2 - produto, 3 - produto por
-		// escalar
-		switch (op) {
-		case 0:
-			stage.setTitle("SOMA | MatrixFX");
-			lbTitle.setText("IIIVX|      Soma de matrizes      |XVIII");
-			addMatrixA(50, 90);
-			addMatrixB(560, 90);
-			break;
-
-		case 1:
-			stage.setTitle("DIFEREN�A | MatrixFX");
-			lbTitle.setText("IIIVX|      Diferença de matrizes      |XVIII");
-			addMatrixA(50, 90);
-			addMatrixB(560, 90);
-			break;
-
-		case 2:
-			stage.setTitle("PRODUTO | MatrixFX");
-			lbTitle.setText("IIIVX|      Produto de matrizes      |XVIII");
-			addMatrixA(50, 90);
-			addMatrixB(560, 90);
-			break;
-
-		case 3:
-			stage.setTitle("PRODUTO POR ESCALAR | MatrixFX");
-			lbTitle.setText("IIIVX|      Produto de um escalar por uma matriz      |XVIII");
-			addScalar(100, 120);
-			addMatrixA(560, 90);
-			break;
+		
+		// operation deviation
+		switch (opType)
+		{
+			case SUM: 
+				stage.setTitle("SOMA | MatrixFX");
+				lbTitle.setText("IIIVX|      Soma de matrizes      |XVIII");
+				addMatrixA(50, 90);
+				addMatrixB(560, 90);
+				break;
+	
+			case SUBT:
+				stage.setTitle("DIFERENÇA | MatrixFX");
+				lbTitle.setText("IIIVX|      Diferença de matrizes      |XVIII");
+				addMatrixA(50, 90);
+				addMatrixB(560, 90);
+				break;
+	
+			case MULT:
+				stage.setTitle("PRODUTO | MatrixFX");
+				lbTitle.setText("IIIVX|      Produto de matrizes      |XVIII");
+				addMatrixA(50, 90);
+				addMatrixB(560, 90);
+				break;
+	
+			case SCALAR:
+				stage.setTitle("PRODUTO POR ESCALAR | MatrixFX");
+				lbTitle.setText("IIIVX|      Produto de um escalar por uma matriz      |XVIII");
+				addScalar(100, 120);
+				addMatrixA(560, 90);
+				break;
 		}
 
 		// projetar janela
@@ -120,7 +123,8 @@ public class MatrixOp extends Application {
 		chBxAJ1.setSelected(true);
 		chBxAI1.setDisable(true);
 		chBxAJ1.setDisable(true);
-		if (op != 3) {
+		
+		if (opType != OperationType.SCALAR) {
 			chBxBI1.setSelected(true);
 			chBxBJ1.setSelected(true);
 
@@ -130,7 +134,7 @@ public class MatrixOp extends Application {
 			chBxBI4.setDisable(true);
 			chBxBI5.setDisable(true);
 
-			if (op != 2) {
+			if (opType != OperationType.MULT) {
 				chBxBJ1.setDisable(true);
 				chBxBJ2.setDisable(true);
 				chBxBJ3.setDisable(true);
@@ -152,7 +156,7 @@ public class MatrixOp extends Application {
 					chBxAI1.setSelected(true);
 				} else {
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBI5.setDisable(false);
 					chBxBI5.fire();
 					chBxBI5.setDisable(true);
@@ -169,7 +173,7 @@ public class MatrixOp extends Application {
 				} else {
 					chBxAI5.setSelected(false);
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBI4.setDisable(false);
 					chBxBI4.fire();
 					chBxBI4.setDisable(true);
@@ -186,7 +190,7 @@ public class MatrixOp extends Application {
 					chBxAI5.setSelected(false);
 					chBxAI4.setSelected(false);
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBI3.setDisable(false);
 					chBxBI3.fire();
 					chBxBI3.setDisable(true);
@@ -203,7 +207,7 @@ public class MatrixOp extends Application {
 					chBxAI4.setSelected(false);
 					chBxAI3.setSelected(false);
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBI2.setDisable(false);
 					chBxBI2.fire();
 					chBxBI2.setDisable(true);
@@ -221,12 +225,12 @@ public class MatrixOp extends Application {
 					chBxAJ1.setSelected(true);
 				} else {
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBJ5.setDisable(false);
 					chBxBJ5.fire();
 					chBxBJ5.setDisable(true);
 				}
-				if (op == 2) {
+				if (opType == OperationType.MULT) {
 					chBxBI5.setDisable(false);
 					chBxBI5.fire();
 					chBxBI5.setDisable(true);
@@ -243,12 +247,12 @@ public class MatrixOp extends Application {
 				} else {
 					chBxAJ5.setSelected(false);
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBJ4.setDisable(false);
 					chBxBJ4.fire();
 					chBxBJ4.setDisable(true);
 				}
-				if (op == 2) {
+				if (opType == OperationType.MULT) {
 					chBxBI4.setDisable(false);
 					chBxBI4.fire();
 					chBxBI4.setDisable(true);
@@ -265,12 +269,12 @@ public class MatrixOp extends Application {
 					chBxAJ5.setSelected(false);
 					chBxAJ4.setSelected(false);
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBJ3.setDisable(false);
 					chBxBJ3.fire();
 					chBxBJ3.setDisable(true);
 				}
-				if (op == 2) {
+				if (opType == OperationType.MULT) {
 					chBxBI3.setDisable(false);
 					chBxBI3.fire();
 					chBxBI3.setDisable(true);
@@ -287,12 +291,12 @@ public class MatrixOp extends Application {
 					chBxAJ4.setSelected(false);
 					chBxAJ3.setSelected(false);
 				}
-				if (op == 0 || op == 1) {
+				if (opType == OperationType.SUM || opType == OperationType.SUBT) {
 					chBxBJ2.setDisable(false);
 					chBxBJ2.fire();
 					chBxBJ2.setDisable(true);
 				}
-				if (op == 2) {
+				if (opType == OperationType.MULT) {
 					chBxBI2.setDisable(false);
 					chBxBI2.fire();
 					chBxBI2.setDisable(true);
@@ -301,7 +305,7 @@ public class MatrixOp extends Application {
 			}
 		});
 
-		if (op != 3) {
+		if (opType != OperationType.SCALAR) {
 			chBxBI5.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					if (chBxBI5.isSelected()) {
@@ -435,20 +439,20 @@ public class MatrixOp extends Application {
 				resultScreen.start(new Stage());
 				int[][] c;
 
-				switch (op) {
-				case 0:
+				switch (opType) {
+				case SUM:
 					c = Matrix.sum(Matrix.toDecimal(readA()), Matrix.toDecimal(readB()));
 					resultScreen.populate(Matrix.toStr(c));
 					break;
-				case 1:
+				case SUBT:
 					c = Matrix.subtract(Matrix.toDecimal(readA()), Matrix.toDecimal(readB()));
 					resultScreen.populate(Matrix.toStr(c));
 					break;
-				case 2:
+				case MULT:
 					c = Matrix.multiply(Matrix.toDecimal(readA()), Matrix.toDecimal(readB()));
 					resultScreen.populate(Matrix.toStr(c));
 					break;
-				case 3:
+				case SCALAR:
 					c = Matrix.multplyByScalar(Matrix.toDecimal(readA()), Matrix.elementToDec(tFScalar.getText()));
 					resultScreen.populate(Matrix.toStr(c));
 					break;
@@ -581,7 +585,7 @@ public class MatrixOp extends Application {
 			empty = true;
 		}
 
-		if (op != 3) {
+		if (opType != OperationType.SCALAR) {
 			if ((!tFB11.isDisable() && tFB11.getText().isEmpty()) || (!tFB12.isDisable() && tFB12.getText().isEmpty())
 					|| (!tFB13.isDisable() && tFB13.getText().isEmpty())
 					|| (!tFB14.isDisable() && tFB14.getText().isEmpty())
@@ -610,7 +614,7 @@ public class MatrixOp extends Application {
 			}
 		}
 
-		if (op == 3) {
+		if (opType == OperationType.SCALAR) {
 			if (tFScalar.getText().isEmpty()) {
 				empty = true;
 			}
@@ -772,7 +776,7 @@ public class MatrixOp extends Application {
 			tFA55.clear();
 		}
 
-		if (op != 3) {
+		if (opType != OperationType.SCALAR) {
 			if (chBxBI1.isSelected() && chBxBJ1.isSelected()) {
 				tFB11.setDisable(false);
 			} else {
@@ -956,7 +960,7 @@ public class MatrixOp extends Application {
 			this.aJ = 5;
 		}
 
-		if (this.op != 3) {
+		if (opType != OperationType.SCALAR) {
 			this.bI = 1;
 			if (chBxBI2.isSelected()) {
 				this.bI = 2;
