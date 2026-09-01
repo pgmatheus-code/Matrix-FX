@@ -37,15 +37,15 @@ O processo envolveu:
 - Instalar as versões atuais do JDK/JRE e do openJFX.
 - Adicionar os JARs do JavaFX ao projeto:
 
-*** Clique direito no Projeto > Properties > Java Build Path > Add External JARs *** e selecione todos os arquivos da pasta lib do openJFX.
+*** Com clique direito no Projeto > Properties > Java Build Path > Add External JARs *** e selecionando todos os arquivos da pasta lib do openJFX.
 
 ![Main menu](src/img/add_external_jars.png)
 
-E finalmente acrescentar o seguinte comando:
+E finalmente acrescentando o seguinte comando:
 
 #### --module-path "C:\javafx-sdk-21\lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics
 
-via: Run > Run Configurations > Java Appication > Main > Aba "Arguments" > VM Arguments.
+via: Run > Run Configurations > Java Application > Main > Aba "Arguments" > VM Arguments.
 
 ![Main menu](src/img/run_config.png)
 
