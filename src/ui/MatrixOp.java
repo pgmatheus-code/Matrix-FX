@@ -37,17 +37,23 @@ public class MatrixOp extends Application {
 	private Button btCalc, btQuit;
 	private Image pI;
 
+	// empty contructor
+	public MatrixOp() {} 
 	
-	public MatrixOp() {} // empty contructor
-	
-	public MatrixOp(OperationType opType) // enum param constructor 
+	// enum param constructor 
+	public MatrixOp(OperationType opType) 
 	{
 		this.opType = opType;
 	}
-
-	// initialize screen
+	
+	// entry point
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	// launch call
 	public void start(Stage stage) throws Exception {
-		// objetos necess�rios para projetar a tela
+		// scene setting
 		this.stage = stage;
 		root = new Pane();
 		scene = new Scene(root, 1024, 340);
@@ -113,12 +119,12 @@ public class MatrixOp extends Application {
 				break;
 		}
 
-		// projetar janela
+		// window frame setting
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
 
-		// seleciona e desabilita caixas de checagem no come�o
+		// start disabling check boxes
 		chBxAI1.setSelected(true);
 		chBxAJ1.setSelected(true);
 		chBxAI1.setDisable(true);
@@ -143,8 +149,8 @@ public class MatrixOp extends Application {
 			}
 		}
 
-		// chamada de verifica��o de caixas de checagem
-		verify();
+		// check box disabling based on neighbors
+		updateCheckBoxes();
 
 		// a��es disparadas entre as caixas de checagem
 		chBxAI5.setOnAction(new EventHandler<ActionEvent>() {
@@ -161,7 +167,7 @@ public class MatrixOp extends Application {
 					chBxBI5.fire();
 					chBxBI5.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 		chBxAI4.setOnAction(new EventHandler<ActionEvent>() {
@@ -178,7 +184,7 @@ public class MatrixOp extends Application {
 					chBxBI4.fire();
 					chBxBI4.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 		chBxAI3.setOnAction(new EventHandler<ActionEvent>() {
@@ -195,7 +201,7 @@ public class MatrixOp extends Application {
 					chBxBI3.fire();
 					chBxBI3.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 		chBxAI2.setOnAction(new EventHandler<ActionEvent>() {
@@ -212,7 +218,7 @@ public class MatrixOp extends Application {
 					chBxBI2.fire();
 					chBxBI2.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 
@@ -235,7 +241,7 @@ public class MatrixOp extends Application {
 					chBxBI5.fire();
 					chBxBI5.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 		chBxAJ4.setOnAction(new EventHandler<ActionEvent>() {
@@ -257,7 +263,7 @@ public class MatrixOp extends Application {
 					chBxBI4.fire();
 					chBxBI4.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 		chBxAJ3.setOnAction(new EventHandler<ActionEvent>() {
@@ -279,7 +285,7 @@ public class MatrixOp extends Application {
 					chBxBI3.fire();
 					chBxBI3.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 		chBxAJ2.setOnAction(new EventHandler<ActionEvent>() {
@@ -301,7 +307,7 @@ public class MatrixOp extends Application {
 					chBxBI2.fire();
 					chBxBI2.setDisable(true);
 				}
-				verify();
+				updateCheckBoxes();
 			}
 		});
 
@@ -315,7 +321,7 @@ public class MatrixOp extends Application {
 						chBxBI1.setSelected(true);
 					} else {
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBI4.setOnAction(new EventHandler<ActionEvent>() {
@@ -327,7 +333,7 @@ public class MatrixOp extends Application {
 					} else {
 						chBxBI5.setSelected(false);
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBI3.setOnAction(new EventHandler<ActionEvent>() {
@@ -339,7 +345,7 @@ public class MatrixOp extends Application {
 						chBxBI5.setSelected(false);
 						chBxBI4.setSelected(false);
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBI2.setOnAction(new EventHandler<ActionEvent>() {
@@ -351,7 +357,7 @@ public class MatrixOp extends Application {
 						chBxBI4.setSelected(false);
 						chBxBI3.setSelected(false);
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBJ5.setOnAction(new EventHandler<ActionEvent>() {
@@ -363,7 +369,7 @@ public class MatrixOp extends Application {
 						chBxBJ1.setSelected(true);
 					} else {
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBJ4.setOnAction(new EventHandler<ActionEvent>() {
@@ -375,7 +381,7 @@ public class MatrixOp extends Application {
 					} else {
 						chBxBJ5.setSelected(false);
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBJ3.setOnAction(new EventHandler<ActionEvent>() {
@@ -387,7 +393,7 @@ public class MatrixOp extends Application {
 						chBxBJ5.setSelected(false);
 						chBxBJ4.setSelected(false);
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 			chBxBJ2.setOnAction(new EventHandler<ActionEvent>() {
@@ -399,7 +405,7 @@ public class MatrixOp extends Application {
 						chBxBJ4.setSelected(false);
 						chBxBJ3.setSelected(false);
 					}
-					verify();
+					updateCheckBoxes();
 				}
 			});
 		}
@@ -624,7 +630,7 @@ public class MatrixOp extends Application {
 	}
 
 	// m�todo que verifica todas as caixas de checagem e habilita/desabilita campos
-	private void verify() {
+	private void updateCheckBoxes() {
 		if (chBxAI1.isSelected() && chBxAJ1.isSelected()) {
 			tFA11.setDisable(false);
 		} else {
@@ -1290,9 +1296,5 @@ public class MatrixOp extends Application {
 
 				chBxBI1, chBxBI2, chBxBI3, chBxBI4, chBxBI5, chBxBJ1, chBxBJ2, chBxBJ3, chBxBJ4, chBxBJ5);
 	}
-
-	// ponto de partida da aplica��o
-	public static void main(String[] args) {
-		launch(args);
-	}
+	
 }
